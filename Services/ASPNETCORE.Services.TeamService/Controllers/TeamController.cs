@@ -23,9 +23,24 @@ namespace ASPNETCORE.Services.TeamService.Controllers
 
         // GET: api/Team
         [HttpGet]
-        public IEnumerable<Team> GetTeam()
+        public IEnumerable<Team> GetTeams()
         {
-            return _context.Team;
+            IEnumerable<Team> teams = new List<Team>()
+            {
+                new Team()
+                {
+                    ID = Guid.NewGuid(),
+                    Name = "Equipo A"
+                },
+                new Team()
+                {
+                    ID = Guid.NewGuid(),
+                    Name = "Equipo B"
+                }
+            };
+
+            //return _context.Team;
+            return teams;
         }
 
         // GET: api/Team/5
