@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ASPNETCORE.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using ASPNETCORE.Repository;
-
-
 
 namespace ASPNETCORE.Web
 {
@@ -34,21 +28,11 @@ namespace ASPNETCORE.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddDbContext<TeamDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("TeamDbContext")));
-
-
-            
-            
-
-            // Start ASPNET EF. From Package Manager Console
-            // Add-Migration Initial
-            // Update-Database
 
             
         }
@@ -68,7 +52,6 @@ namespace ASPNETCORE.Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
             
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
