@@ -15,7 +15,5 @@ namespace ASPNETCORE.Repository
         }
 
         public DbSet<ASPNETCORE.Models.Team> Team { get; set; }
-
-        public DbSet<ASPNETCORE.Models.Member> Member { get; set; }
     }
 }

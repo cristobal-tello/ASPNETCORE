@@ -1,9 +1,7 @@
-﻿using ASPNETCORE.Repository;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -29,12 +27,6 @@ namespace ASPNETCORE.Web
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-
-            services.AddDbContext<TeamDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("TeamDbContext")));
-
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
