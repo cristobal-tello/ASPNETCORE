@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ASPNETCORE.Models;
+using ASPNETCORE.Web.Models;
 
 namespace ASPNETCORE.Web.Interfaces
 {

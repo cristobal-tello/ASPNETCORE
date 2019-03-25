@@ -1,12 +1,11 @@
-﻿using System;
+﻿using ASPNETCORE.Repository;
+using ASPNETCORE.Services.TeamService.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ASPNETCORE.Models;
-using ASPNETCORE.Repository;
 
 namespace ASPNETCORE.Services.TeamService.Controllers
 {
@@ -14,11 +13,11 @@ namespace ASPNETCORE.Services.TeamService.Controllers
     [ApiController]
     public class TeamController : ControllerBase
     {
-        private readonly TeamDbContext _context;
+        private readonly TeamDbContext teamDbContext;
 
         public TeamController(TeamDbContext context)
         {
-            _context = context;
+            teamDbContext = context;
         }
 
         // GET: api/Team
@@ -52,7 +51,7 @@ namespace ASPNETCORE.Services.TeamService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var team = await _context.Team.FindAsync(id);
+            var team = await teamDbContext.Team.FindAsync(id);
 
             if (team == null)
             {
@@ -76,11 +75,11 @@ namespace ASPNETCORE.Services.TeamService.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(team).State = EntityState.Modified;
+            teamDbContext.Entry(team).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await teamDbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -106,8 +105,8 @@ namespace ASPNETCORE.Services.TeamService.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Team.Add(team);
-            await _context.SaveChangesAsync();
+            teamDbContext.Team.Add(team);
+            await teamDbContext.SaveChangesAsync();
 
             return CreatedAtAction("GetTeam", new { id = team.ID }, team);
         }
@@ -121,21 +120,21 @@ namespace ASPNETCORE.Services.TeamService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var team = await _context.Team.FindAsync(id);
+            var team = await teamDbContext.Team.FindAsync(id);
             if (team == null)
             {
                 return NotFound();
             }
 
-            _context.Team.Remove(team);
-            await _context.SaveChangesAsync();
+            teamDbContext.Team.Remove(team);
+            await teamDbContext.SaveChangesAsync();
 
             return Ok(team);
         }
 
         private bool TeamExists(Guid id)
         {
-            return _context.Team.Any(e => e.ID == id);
+            return teamDbContext.Team.Any(e => e.ID == id);
         }
     }
 }

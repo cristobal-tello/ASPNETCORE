@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ASPNETCORE.Services.TeamService.Models;
 using Microsoft.EntityFrameworkCore;
-using ASPNETCORE.Models;
 
 namespace ASPNETCORE.Repository
 {
@@ -14,6 +10,6 @@ namespace ASPNETCORE.Repository
         {
         }
 
-        public DbSet<ASPNETCORE.Models.Team> Team { get; set; }
+        public DbSet<Team> Team { get; set; }
     }
 }
