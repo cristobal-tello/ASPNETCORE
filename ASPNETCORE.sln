@@ -21,6 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASPNETCORE.Services.Notific
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASPNETCORE.Infrastructure", "Infrastructure\ASPNETCORE.Infrastructure\ASPNETCORE.Infrastructure.csproj", "{95FECEA3-A1DE-4064-9799-9572B460D2AE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3389CE4B-CC51-4DD9-BD05-C59AC163E112}"
+	ProjectSection(SolutionItems) = preProject
+		readme.rd = readme.rd
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

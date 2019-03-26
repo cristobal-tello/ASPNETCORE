@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ASPNETCORE.Infrastructure.AMQP;
+using ASPNETCORE.Infrastructure.Notifications.Emitters;
+using ASPNETCORE.Infrastructure.Notifications.Interfaces;
+using ASPNETCORE.Repository;
+using ASPNETCORE.Services.Clients.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.EntityFrameworkCore;
-using ASPNETCORE.Repository;
 
 namespace ASPNETCORE.Services.TeamService
 {
@@ -30,6 +28,16 @@ namespace ASPNETCORE.Services.TeamService
 
             services.AddDbContext<TeamDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("TeamDbContext")));
+
+            var notificationServiceUrl = Configuration.GetSection("Services:notification.url").Value;
+            services.AddSingleton<IHttpNotificationTeamServiceClient>(new HttpNotificationTeamServiceClient(notificationServiceUrl));
+
+            services.Configure<Options>(Configuration.GetSection("AmqpOptions"));
+            services.Configure<RoutingKeys>(Configuration.GetSection("AmpqRoutingKeys"));
+
+            services.AddSingleton(typeof(INewTeamEventEmitter), typeof(NewTeamEventEmitter));
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +47,7 @@ namespace ASPNETCORE.Services.TeamService
             {
                 app.UseDeveloperExceptionPage();
             }
+            
 
             app.UseMvc();
         }

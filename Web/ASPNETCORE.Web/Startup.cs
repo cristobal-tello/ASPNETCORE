@@ -1,5 +1,5 @@
-﻿using ASPNETCORE.Web.Clients;
-using ASPNETCORE.Web.Interfaces;
+﻿using ASPNETCORE.Web.Client.Interfaces;
+using ASPNETCORE.Web.Clients;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;

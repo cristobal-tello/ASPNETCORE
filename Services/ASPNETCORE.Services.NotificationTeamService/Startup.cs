@@ -33,8 +33,9 @@ namespace ASPNETCORE.Services.NotificationTeamService
             services.Configure<RoutingKeys>(Configuration.GetSection("AmpqRoutingKeys"));
 
             services.AddSingleton(typeof(INewTeamEventEmitter), typeof(NewTeamEventEmitter));
+            services.AddMvc();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+          //  services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,16 +52,17 @@ namespace ASPNETCORE.Services.NotificationTeamService
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseCookiePolicy();
+            /* app.UseHttpsRedirection();
+             app.UseStaticFiles();
+             app.UseCookiePolicy();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+             app.UseMvc(routes =>
+             {
+                 routes.MapRoute(
+                     name: "default",
+                     template: "{controller=Home}/{action=Index}/{id?}");
+             });*/
+            app.UseMvc();
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿using ASPNETCORE.Web.Interfaces;
+﻿using ASPNETCORE.Web.Client.Interfaces;
 using ASPNETCORE.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ASPNETCORE.Web.Controllers
@@ -37,18 +36,21 @@ namespace ASPNETCORE.Web.Controllers
         // POST: Default/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create([Bind("Name,ID")] TeamViewModel teamViewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
+
+                await teamClient.AddTeamAsync(
+                    new Team()
+                    {
+                        ID = teamViewModel.ID,
+                        Name = teamViewModel.Name
+                    });
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(teamViewModel);
         }
 
         // GET: Default/Edit/5

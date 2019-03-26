@@ -5,7 +5,8 @@ using System;
 
 namespace ASPNETCORE.Services.NotificationTeamService.Controllers
 {
-    [Route("/services/{memberId}/notificationteam")]
+    [Route("services/[controller]")]
+    [ApiController]
     public class NotificationTeamController : Controller
     {
         private readonly INewTeamEventEmitter newTeamEventEmitter;
@@ -15,15 +16,21 @@ namespace ASPNETCORE.Services.NotificationTeamService.Controllers
             this.newTeamEventEmitter = eventEmitter;
         }
 
+
         [HttpPost]
-        public IActionResult NewMember(Guid memberId)
+        public IActionResult NewTeam([FromBody] String team)
         {
+            /*    Stream req = Request.Body;
+                req.Seek(0, System.IO.SeekOrigin.Begin);
+                string json = new StreamReader(req).ReadToEnd();*/
+
             NewTeamEventData newMemberEvent = new NewTeamEventData()
             {
-                Name = string.Format("{0} at {1}", "SUPEREQUIPO", DateTime.Now.ToLongTimeString())
+                Name = string.Format("{0} at {1}", team == null ? "VACIO" : team, DateTime.Now.ToLongTimeString())
             };
 
             this.newTeamEventEmitter.EmitNewTeamEvent(newMemberEvent);
+
 
             return Ok();
         }

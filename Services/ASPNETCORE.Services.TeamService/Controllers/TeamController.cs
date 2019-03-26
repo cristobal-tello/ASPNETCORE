@@ -1,4 +1,5 @@
 ﻿using ASPNETCORE.Repository;
+using ASPNETCORE.Services.Clients.Interfaces;
 using ASPNETCORE.Services.TeamService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,13 @@ namespace ASPNETCORE.Services.TeamService.Controllers
     public class TeamController : ControllerBase
     {
         private readonly TeamDbContext teamDbContext;
+        private readonly IHttpNotificationTeamServiceClient notificationService;
 
-        public TeamController(TeamDbContext context)
+        public TeamController(TeamDbContext context, IHttpNotificationTeamServiceClient notificationService)
         {
-            teamDbContext = context;
+            this.teamDbContext = context;
+            this.notificationService = notificationService;
+
         }
 
         // GET: api/Team
@@ -37,6 +41,7 @@ namespace ASPNETCORE.Services.TeamService.Controllers
                     Name = "Equipo B"
                 }
             };
+            
 
             //return _context.Team;
             return teams;
@@ -80,6 +85,7 @@ namespace ASPNETCORE.Services.TeamService.Controllers
             try
             {
                 await teamDbContext.SaveChangesAsync();
+                
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -105,8 +111,9 @@ namespace ASPNETCORE.Services.TeamService.Controllers
                 return BadRequest(ModelState);
             }
 
-            teamDbContext.Team.Add(team);
-            await teamDbContext.SaveChangesAsync();
+          //  teamDbContext.Team.Add(team);
+            //await teamDbContext.SaveChangesAsync();
+             await notificationService.NewTeamAsync(team);
 
             return CreatedAtAction("GetTeam", new { id = team.ID }, team);
         }
